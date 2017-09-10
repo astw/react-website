@@ -71,6 +71,7 @@ gulp.task('watch', function(){
 	gulp.watch(path.join(config.paths.src, "*.html"), ['html']);
 	gulp.watch(path.join(config.paths.src, "main.js"), ['js', 'lint']);
 	gulp.watch(path.join(config.paths.js, "js"), ['js', 'lint']);
+	gulp.watch(config.paths.js, ['js', 'lint']);
 });
 
 gulp.task('lint', function() {
