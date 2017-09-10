@@ -18,6 +18,7 @@ var config = {
 	paths:{ 
 		src: 'src',
 		js: './src/**/*.js',
+		images: './src/images/*',
 		css: [ 
 			'node_modules/bootstrap/dist/css/bootstrap.min.css',
 			'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
@@ -81,7 +82,13 @@ gulp.task('lint', function() {
 		.pipe(lint.failAfterError());
 }); 
 
-gulp.task('default',['html','js', 'css', 'lint', 'open', 'watch']); 
+gulp.task('images', function(){
+	gulp.src(config.paths.images)
+	.pipe(gulp.dest(config.paths.dist + '/images'))
+	.pipe(livereload());
+});
+
+gulp.task('default',['html', 'images', 'js', 'css', 'lint', 'open', 'watch']); 
 
 
 function isOnlyChange(event) {
