@@ -1,7 +1,7 @@
 "use strict";
 
 var React = require('react');
-var InputExt = require('../common/textInput');
+var InputExt = require('../common/textInput');   // InputExt name can be changed Input to replace the default one.
 
 var AuthorForm = React.createClass({
   render: function(){
@@ -30,8 +30,10 @@ var AuthorForm = React.createClass({
                   label="Company Name"
                   value={this.props.companyName}
                   onChange={this.props.onChange} />
-                  
-        <input type="submit" value="Save" className="btn btn-default" />
+
+        <input type="submit" value="Save" className="btn btn-default"
+            onClick={this.props.onSave}
+         />
 
 			</form>
       </div>

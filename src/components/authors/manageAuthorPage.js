@@ -2,6 +2,7 @@
 
 var React = require('react');
 var AuthorForm = require('./authorForm');
+var AuthorApi = require('../../api/authorApi');
 
 var ManageAuthorPage = React.createClass({
 
@@ -9,6 +10,12 @@ var ManageAuthorPage = React.createClass({
       return {
         author:{id:'', firstName:'', lastName:'', companyName:''}
       }
+  },
+
+  saveAuthor :function(event){
+     event.preventDefault();
+     console.log("simulate remote calling");
+     AuthorApi.saveAuthor(this.state.author);
   },
 
 // this is the common pattern
@@ -22,7 +29,10 @@ var ManageAuthorPage = React.createClass({
 	render: function(){
 		return (
       <div>
-        <AuthorForm author={this.state.author} onChange={this.setAuthorState} />
+        <AuthorForm author={this.state.author}
+              onChange={this.setAuthorState}
+              onSave={this.saveAuthor}
+              />
       </div>
 		);
 	}
