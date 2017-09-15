@@ -1,10 +1,14 @@
 "use strict";
 
 var React = require('react');
+var Router = require('react-router');
 var AuthorForm = require('./authorForm');
 var AuthorApi = require('../../api/authorApi');
 
 var ManageAuthorPage = React.createClass({
+  mixins:[
+      Router.Navigation
+  ],
 
   getInitialState: function(){
       return {
@@ -16,6 +20,7 @@ var ManageAuthorPage = React.createClass({
      event.preventDefault();
      console.log("simulate remote calling");
      AuthorApi.saveAuthor(this.state.author);
+     this.transitionTo('authors');    // transitionTo is mixin into the class
   },
 
 // this is the common pattern
