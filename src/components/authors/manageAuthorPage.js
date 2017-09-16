@@ -4,6 +4,7 @@ var React = require('react');
 var Router = require('react-router');
 var AuthorForm = require('./authorForm');
 var AuthorApi = require('../../api/authorApi');
+var toastr = require('toastr');
 
 var ManageAuthorPage = React.createClass({
   mixins:[
@@ -20,6 +21,7 @@ var ManageAuthorPage = React.createClass({
      event.preventDefault();
      console.log("simulate remote calling");
      AuthorApi.saveAuthor(this.state.author);
+     toastr.success('Author saved');
      this.transitionTo('authors');    // transitionTo is mixin into the class
   },
 
