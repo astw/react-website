@@ -21,11 +21,19 @@ var ManageAuthorPage = React.createClass({
   ],
 
   getInitialState: function(){
+ 
       return {
-        author:{id:'', firstName:'', lastName:'', companyName:''},
+        author: {id:'', firstName:'', lastName:'', companyName:''},
         errors:{},
         dirty:false
       }
+  },
+
+  componentWillMount: function(){
+    var authorId = this.props.params.id;  // this from path /author/id
+    if(authorId){
+      this.setState({author:AuthorApi.getAuthorById(authorId)});
+    }
   },
 
   authorFormIsValidation:function(){
