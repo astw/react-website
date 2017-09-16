@@ -9,26 +9,25 @@ var AuthorForm = React.createClass({
       <div className="col-lg-offset-3 col-lg-6">
 			<form className="col-6">
         <h1>Manage Author</h1>
-        <label htmlFor="firstName">First Name</label>
-        <input type="text" name="firstName"
-                className="form-control"
-                placeholder="First Name"
-                ref="firstName"
+        
+        <InputExt name="firstName"
+                label="First Name"
                 onChange ={this.props.onChange}
-                value={this.props.author.firstName} />
+                error={this.props.errors.firstName}
+                value= {this.props.author.firstName} />
         <br/>
-        <label htmlFor="lastName">Last Name</label>
-        <input type="text" name="lastName"
-                className="form-control"
-                placeholder="First Name"
-                ref="lastName"
+
+        <InputExt name="lastName"
+                label="Last Name"
                 onChange ={this.props.onChange}
+                error={this.props.errors.lastName}
                 value= {this.props.author.lastName} />
         <br/>
 
         <InputExt name="companyName"
                   label="Company Name"
                   value={this.props.companyName}
+                  error={this.props.errors.companyName}
                   onChange={this.props.onChange} />
 
         <input type="submit" value="Save" className="btn btn-default"

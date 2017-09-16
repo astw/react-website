@@ -13,12 +13,41 @@ var ManageAuthorPage = React.createClass({
 
   getInitialState: function(){
       return {
-        author:{id:'', firstName:'', lastName:'', companyName:''}
+        author:{id:'', firstName:'', lastName:'', companyName:''},
+        errors:{}
       }
+  },
+
+  authorFormIsValidation:function(){
+      var formIsValid = true;
+      this.state.errors = {};  // clear any previous errors;
+
+      if(this.state.author.firstName.length < 3){
+         this.state.errors.firstName = "First name must be more than 3 chars";
+         formIsValid = false;
+      }
+
+      if(this.state.author.lastName.length < 3){
+         this.state.errors.lastName = "Last name must be more than 3 chars";
+         formIsValid = false;
+      }
+
+      if(this.state.author.companyName.length < 3){
+         this.state.errors.companyName = "Company name must be more than 3 chars";
+         formIsValid = false;
+      }
+
+      this.setState({errors:this.state.errors});
+      return formIsValid;
   },
 
   saveAuthor :function(event){
      event.preventDefault();
+
+     if(!this.authorFormIsValidation()){
+       return;
+     }
+
      console.log("simulate remote calling");
      AuthorApi.saveAuthor(this.state.author);
      toastr.success('Author saved');
@@ -39,6 +68,7 @@ var ManageAuthorPage = React.createClass({
         <AuthorForm author={this.state.author}
               onChange={this.setAuthorState}
               onSave={this.saveAuthor}
+              errors={this.state.errors}
               />
       </div>
 		);
