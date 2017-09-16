@@ -7,6 +7,15 @@ var AuthorApi = require('../../api/authorApi');
 var toastr = require('toastr');
 
 var ManageAuthorPage = React.createClass({
+
+ statics:{
+   willTransitionFrom:function(transition, component){
+     if(component.state.dirty && !confirm('Leave without saving?')){
+        transition.abort();
+     }
+   }
+ },
+
   mixins:[
       Router.Navigation
   ],
@@ -14,7 +23,8 @@ var ManageAuthorPage = React.createClass({
   getInitialState: function(){
       return {
         author:{id:'', firstName:'', lastName:'', companyName:''},
-        errors:{}
+        errors:{},
+        dirty:false
       }
   },
 
@@ -51,6 +61,7 @@ var ManageAuthorPage = React.createClass({
      console.log("simulate remote calling");
      AuthorApi.saveAuthor(this.state.author);
      toastr.success('Author saved');
+     this.setState({dirty:false});
      this.transitionTo('authors');    // transitionTo is mixin into the class
   },
 
@@ -59,6 +70,8 @@ var ManageAuthorPage = React.createClass({
     var field = event.target.name;
     var value = event.target.value;
     this.state.author[field] = value;
+    //this.state.dirty = true;
+    this.setState({dirty:true});
     return this.setState({author: this.state.author});
   },
 

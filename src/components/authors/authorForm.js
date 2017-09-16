@@ -4,12 +4,20 @@ var React = require('react');
 var InputExt = require('../common/textInput');   // InputExt name can be changed Input to replace the default one.
 
 var AuthorForm = React.createClass({
+
+  propTypes: {
+      author: React.PropTypes.object.isRequired,
+      onSave: React.PropTypes.func.isRequired,
+      onChange: React.PropTypes.func.isRequired,
+      errors: React.PropTypes.object
+  },
+
   render: function(){
 		return (
       <div className="col-lg-offset-3 col-lg-6">
 			<form className="col-6">
         <h1>Manage Author</h1>
-        
+
         <InputExt name="firstName"
                 label="First Name"
                 onChange ={this.props.onChange}
