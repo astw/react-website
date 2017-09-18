@@ -2,7 +2,7 @@
 //"use strict";
 
 var React = require("react");
-var Header = require('./common/Header');
+var Header = require('./common/header');
 var RouteHandler = require("react-router").RouteHandler;
 $ = jQuery = require('jQuery');
 

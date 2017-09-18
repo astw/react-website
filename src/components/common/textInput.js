@@ -15,7 +15,7 @@ var Input = React.createClass({
 
     render: function(){
       var wraperClass ='form-group';
-      if(this.props.error && this.props.length > 0){
+      if(this.props.error && this.props.error.length > 0){
           wraperClass +=" " + "has-error";
       }
 
@@ -28,6 +28,7 @@ var Input = React.createClass({
                   className="form-control"
                   placeholder={this.props.placeholder}
                   ref={this.props.name}
+		  value = {this.props.value}
                   onChange ={this.props.onChange} />
               <div className="input">{this.props.error}</div>
           </div>

@@ -3,25 +3,25 @@
 var React = require('react');
 var Router = require('react-router');
 var AuthorForm = require('./authorForm');
-var AuthorApi = require('../../api/authorApi');
+// using flux action and store
+var AuthorActions = require('../../actions/authorActions');
+var AuthorStore = require('../../stores/authorStore');
 var toastr = require('toastr');
 
 var ManageAuthorPage = React.createClass({
-
- statics:{
-   willTransitionFrom:function(transition, component){
-     if(component.state.dirty && !confirm('Leave without saving?')){
-        transition.abort();
-     }
-   }
- },
-
   mixins:[
       Router.Navigation
   ],
 
+  statics:{
+    willTransitionFrom:function(transition, component){
+      if(component.state.dirty && !confirm('Leave without saving?')){
+         transition.abort();
+      }
+    }
+  },
+
   getInitialState: function(){
- 
       return {
         author: {id:'', firstName:'', lastName:'', companyName:''},
         errors:{},
@@ -32,8 +32,18 @@ var ManageAuthorPage = React.createClass({
   componentWillMount: function(){
     var authorId = this.props.params.id;  // this from path /author/id
     if(authorId){
-      this.setState({author:AuthorApi.getAuthorById(authorId)});
+      this.setState({author: AuthorStore.getAuthorById(authorId)});
     }
+  },
+
+  // this is the common pattern
+  setAuthorState: function(event){
+      //this.state.dirty = true;
+      this.setState({dirty:true});
+      var field = event.target.name;
+      var value = event.target.value;
+      this.state.author[field] = value;
+      return this.setState({author: this.state.author});
   },
 
   authorFormIsValidation:function(){
@@ -66,31 +76,25 @@ var ManageAuthorPage = React.createClass({
        return;
      }
 
-     console.log("simulate remote calling");
-     AuthorApi.saveAuthor(this.state.author);
+     if(this.state.author.id){
+       AuthorActions.updateAuthor(this.state.author);
+     } else {
+       AuthorActions.createAuthor(this.state.author);
+     }
+
      toastr.success('Author saved');
      this.setState({dirty:false});
      this.transitionTo('authors');    // transitionTo is mixin into the class
   },
 
-// this is the common pattern
-  setAuthorState: function(event){
-    var field = event.target.name;
-    var value = event.target.value;
-    this.state.author[field] = value;
-    //this.state.dirty = true;
-    this.setState({dirty:true});
-    return this.setState({author: this.state.author});
-  },
-
 	render: function(){
 		return (
       <div>
-        <AuthorForm author={this.state.author}
-              onChange={this.setAuthorState}
-              onSave={this.saveAuthor}
-              errors={this.state.errors}
-              />
+        <AuthorForm
+          author={this.state.author}
+          onChange={this.setAuthorState}
+          onSave={this.saveAuthor}
+          errors={this.state.errors} />
       </div>
 		);
 	}
